@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtCore
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QGraphicsProxyWidget, QPushButton, QApplication
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QGraphicsProxyWidget, QPushButton, QApplication
 from configparser import ConfigParser
 
 import signal
