@@ -2,6 +2,7 @@
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtCore
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QGraphicsProxyWidget, QPushButton, QApplication
 from configparser import ConfigParser
 
 import signal
@@ -118,7 +119,7 @@ class GraphDrawer():
     def dist_update(self, data):
         self.img.setImage(data)
 
-        QtGui.QApplication.instance().processEvents()
+        QApplication.instance().processEvents()
 
         self.graph.update()
 
@@ -173,11 +174,11 @@ class GraphDrawer():
             self.REFRESH_MAP_FLAG = False
 
         # Process QT events so graph can still be manipulated when there are no plot requests
-        QtGui.QApplication.instance().processEvents()
+        QApplication.instance().processEvents()
 
 
 # Draws the layout
-class PlotterWindow(pg.GraphicsWindow):
+class PlotterWindow(pg.GraphicsLayoutWidget):
     BUTTON_RESET = "Reset (r)"
     BUTTON_ODOM = "Odom"
     BUTTON_GROUND_TRUTH = "Ground Truth"
@@ -190,7 +191,7 @@ class PlotterWindow(pg.GraphicsWindow):
                  pos_tolerance, map_line_size,
                  pipe_commander):
 
-        super(PlotterWindow, self).__init__()
+        super(PlotterWindow, self).__init__(show=True)
         # Spawn the graph window
         self.running = True
         # Handle SIGTERM signals (nto handled by close event)
@@ -241,7 +242,7 @@ class PlotterWindow(pg.GraphicsWindow):
         self.addItem(label)
 
         # Process QT events and render the window
-        QtGui.QApplication.instance().processEvents()
+        QApplication.instance().processEvents()
 
         # Pipe
         self.pipe_commander = pipe_commander
@@ -300,8 +301,8 @@ class PlotterWindow(pg.GraphicsWindow):
             self.graph_drawer.step()
 
     def add_button(self, name, parent_layout, button_callback, checkable, row, col):
-        proxy = QtGui.QGraphicsProxyWidget()
-        button = QtGui.QPushButton(name)
+        proxy = QGraphicsProxyWidget()
+        button = QPushButton(name)
         proxy.setWidget(button)
 
         if(checkable == True):
@@ -316,8 +317,8 @@ class PlotterWindow(pg.GraphicsWindow):
 
     def add_static_button(self, name, parent_layout, row, col):
 
-        proxy = QtGui.QGraphicsProxyWidget()
-        button = QtGui.QPushButton(name)
+        proxy = QGraphicsProxyWidget()
+        button = QPushButton(name)
         proxy.setWidget(button)
 
         button.setEnabled(False)
